@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>New Flight</h2>
+  <form action="" method=post>
+    <p>
+      Flight Number:
+      <input type=text name=flight_number value="{{ request.form.flight_number }}">
+    <p>Airline Name:
+    <p><input type=text name=airline_name value="{{ request.form.airline_name }}">
+    <p>Time:
+    <p><input type=number name=time_time value="{{ request.form.time_time }}">
+    <p>Date:
+    <p><input type=number name=date_date value="{{ request.form.date_date }}">
+    <p>From Destination:
+    <p><input type=text name=from_dest value="{{ request.form.from_dest }}">
+    <p>To Destination:
+    <p><input type=text name=to_dest value="{{ request.form.to_dest }}">
+    <p>Gate:
+    <p><input type=text name=gate_num value="{{ request.form.gate_num }}">
+    <p>
+      <input type=submit value="Create entry"></form>
+      <a href="{{ url_for('show_all') }}"><input type=submit value="Back to List"></a>
+  
+{% endblock %}

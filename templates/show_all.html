@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>All Items</h2>
+<p> 
+  <form action="{{ url_for('update_done') }}" method=post><input type=submit value="Update"></form>
+   <br>
+  <form action="{{ url_for('new') }}"><input type="submit" value="Create"></form>
+  <form action="{{ url_for('search_flight', flight_num=flightsearch) }}">
+  Search Flight:
+  <input type="search" name="flightsearch">
+  <input type="submit" value="Search">
+  </form>
+</p>
+    <table class="table_fill">
+        <thread>
+      <tr>
+        <th class="text-left">#</th>
+        <th class="text-left">Flight number</th>
+        <th class="text-left">Airline name</th>
+        <th class="text-left">Time</th>
+        <th class="text-left">Date</th>
+        <th class="text-left">From Destination</th>
+        <th class="text-left">To Destination</th>
+        <th class="text-left">Gate</th>
+        <th class="text-left"></th>
+      </tr>
+        </thread>
+        <tbody class="table-hover">
+      {%- for flight in flights %}
+      <tr>
+        <td class="text-left">{{ flight.id }}</td>
+        <td class="text-left">{{ flight.flight_num }}</td>
+        <td class="text-left">{{ flight.airline_name }}</td>
+        <td class="text-left">{{ flight.time_time }}</td>
+        <td class="text-left">{{ flight.date_date }}</td>
+        <td class="text-left">{{ flight.from_dest }}</td>
+        <td class="text-left">{{ flight.to_dest }}</td>
+        <td class="text-left">{{ flight.gate_num }}</td>
+        <td class="text-left"><a href="{{ url_for('show_flight', flight_id=flight.id) }}"><input type=submit value="View"></a></td>
+      {%- endfor %}
+      </tr>
+        </tbody>
+    </table>
+    <p>
+{% endblock %}

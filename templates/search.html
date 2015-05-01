@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if flight_ %}
+  <h2>Flight {{ flight_.id }} </h2>
+  <form action="" method=post>
+    <table class=flights>
+      <tr>
+        <th>#
+        <th>Flight number
+        <th>Airline name
+        <th>Time
+        <th>Date
+        <th>From Destination
+        <th>To Destination
+        <th>Gate
+      {%- for flight in flight_ %}
+      <tr class=title>
+        <td>{{ flight.id }}
+        <td>{{ flight.flight_num }}
+        <td>{{ flight.airline_name }}
+        <td>{{ flight.time_time }}
+        <td>{{ flight.date_date }}
+        <td>{{ flight.from_dest }}
+        <td>{{ flight.to_dest }}
+        <td>{{ flight.gate_num }}
+      {%- endfor %}
+    </table>
+    <p>
+      <input type=submit value="Update">
+      <a href="{{ url_for('new') }}">New item</a>
+  </form>
+{% endif %}
+{% endblock %}
