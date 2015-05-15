@@ -1,5 +1,5 @@
 from models import Flights, app, db
-from flask import Flask, request, flash, url_for, redirect, render_template, abort
+from flask import Flask, request, flash, url_for, redirect, render_template, abort, session
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -86,6 +86,27 @@ def update_done():
     flash('Updated!')
     db.session.commit()
     return redirect(url_for('show_all'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid Username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid Password'
+        else:
+            session['logged_in'] = True
+            flash('You were log in!')
+            return redirect(url_for('show_all'))
+    return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('show_all'))
+
 
 
 if __name__ == '__main__':
