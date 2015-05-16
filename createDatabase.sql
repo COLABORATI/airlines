@@ -1,22 +1,22 @@
-CREATE TABLE airline{
+CREATE TABLE airline(
 airlineID integer PRIMARY KEY,
 airlineCode text,
-airlineName text};
+airlineName text);
 
-CREATE TABLE aircraft{
+CREATE TABLE aircraft(
 aircraftID integer PRIMARY KEY,
 airlineID integer REFERENCES airline,
 type text,
-capacity integer};
+capacity integer);
 
-CREATE TABLE airport{
+CREATE TABLE airport(
 airportID integer PRIMARY KEY,
 airlineID integer REFERENCES airline,
 airportCode text,
 city text,
-state text};
+state text);
 
-CREATE TABLE flight{
+CREATE TABLE flight(
 flightID integer PRIMARY KEY,
 airlineID integer REFERENCES airline,
 aircraftID integer REFERENCES aircraft,
@@ -26,9 +26,9 @@ departureDate date,
 departureTime time,
 arrivalDate date,
 arrivalTime time,
-duration interval [HOUR TO MINUTE]};
+duration interval [HOUR TO MINUTE]);
 
-CREATE TABLE user{
+CREATE TABLE user(
 userID integer PRIMARY KEY,
 firstName text,
 lastName text,
@@ -37,28 +37,28 @@ phone text,
 street text,
 streetNumber integer,
 city text,
-zip text};
+zip text);
 
-CREATE TABLE account{
+CREATE TABLE account(
 accountID integer PRIMARY KEY,
 userID integer REFERENCES user,
 userType text,
 loginName text,
-password text};
+password text);
 
-CREATE TABLE creditcard{
+CREATE TABLE creditcard(
 cardID integer PRIMARY KEY,
 userID integer REFERENCES user,
 cardType text,
 cardNumber integer,
 expirtationMonth interval [MONTH],
-expirationYear interval [YEAR]};
+expirationYear interval [YEAR]);
 
-CREATE TABLE booking{
+CREATE TABLE booking(
 bookID integer PRIMARY KEY,
 flightID integer REFERENCES flight,
 userID integer REFERENCES user,
 bookDate date,
 seats text,
 class text,
-price numeric};
+price numeric);
