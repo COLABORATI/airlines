@@ -59,6 +59,6 @@ bookID integer PRIMARY KEY,
 flightID integer REFERENCES flight,
 userID integer REFERENCES user,
 bookDate date,
-seat integer,
+seats text,
 class text,
 price numeric};
