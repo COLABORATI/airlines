@@ -3,21 +3,22 @@
   <h2>New Flight</h2>
   <form action="" method=post>
     <p>
-      Flight Number:
-      <input type=text name=flight_number value="{{ request.form.flight_number }}">
-    <p>Airline Name:
-    <p><input type=text name=airline_name value="{{ request.form.airline_name }}">
-    <p>Time:
-    <p><input type=number name=time_time value="{{ request.form.time_time }}">
-    <p>Date:
-    <p><input type=number name=date_date value="{{ request.form.date_date }}">
+      Airline:
+      <input type=text name=airlineID value="{{ request.form.airlineID }}">
+    <p>Aircraft:
+    <p><input type=text name=aircraft value="{{ request.form.aircraft }}">
     <p>From Destination:
-    <p><input type=text name=from_dest value="{{ request.form.from_dest }}">
+    <p><input type=number name=fromDestination value="{{ request.form.fromDestination }}">
     <p>To Destination:
-    <p><input type=text name=to_dest value="{{ request.form.to_dest }}">
-    <p>Gate:
-    <p><input type=text name=gate_num value="{{ request.form.gate_num }}">
-    <p>
+    <p><input type=number name=toDestination value="{{ request.form.toDestination }}">
+    <p>Departure Date:
+    <p><input type=text name=departureDate value="{{ request.form.departureDate }}">
+    <p>Departure Time:
+    <p><input type=text name=departureTime value="{{ request.form.departureTime }}">
+    <p>Arrival Date:
+    <p><input type=text name=arrivaldate value="{{ request.form.arrivalDate }}">
+    <p>Arrival Time:
+    <p><input type=text name=arrivalTime value="{{ request.form.arrivalTime }}">
       <input type=submit value="Create entry"></form>
       <a href="{{ url_for('show_all') }}"><input type=submit value="Back to List"></a>
   
