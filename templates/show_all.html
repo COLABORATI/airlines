@@ -15,28 +15,30 @@
         <thread>
       <tr>
         <th class="text-left">#</th>
-        <th class="text-left">Flight number</th>
-        <th class="text-left">Airline name</th>
-        <th class="text-left">Time</th>
-        <th class="text-left">Date</th>
+        <th class="text-left">AirlineID</th>
+        <th class="text-left">AircraftID</th>
         <th class="text-left">From Destination</th>
         <th class="text-left">To Destination</th>
-        <th class="text-left">Gate</th>
+        <th class="text-left">Departure Date</th>
+        <th class="text-left">Departure Time</th>
+        <th class="text-left">Arrival Date</th>
+        <th class="text-left">Arrival Time</th>
         <th class="text-left"></th>
       </tr>
         </thread>
         <tbody class="table-hover">
       {%- for flight in flights %}
       <tr>
-        <td class="text-left">{{ flight.id }}</td>
-        <td class="text-left">{{ flight.flight_num }}</td>
-        <td class="text-left">{{ flight.airline_name }}</td>
-        <td class="text-left">{{ flight.time_time }}</td>
-        <td class="text-left">{{ flight.date_date }}</td>
-        <td class="text-left">{{ flight.from_dest }}</td>
-        <td class="text-left">{{ flight.to_dest }}</td>
-        <td class="text-left">{{ flight.gate_num }}</td>
-        <td class="text-left"><a href="{{ url_for('show_flight', flight_id=flight.id) }}"><input type=submit value="View"></a></td>
+        <td class="text-left">{{ flight.flightID }}</td>
+        <td class="text-left">{{ flight.airlineID }}</td>
+        <td class="text-left">{{ flight.aircraftID }}</td>
+        <td class="text-left">{{ flight.fromDestination }}</td>
+        <td class="text-left">{{ flight.toDestination }}</td>
+        <td class="text-left">{{ flight.departureDate }}</td>
+        <td class="text-left">{{ flight.departureTime }}</td>
+        <td class="text-left">{{ flight.arrivalDate }}</td>
+        <td class="text-left">{{ flight.arrivalTime }}</td>
+        <td class="text-left"><a href="{{ url_for('show_flight', flightID=flight.flightID) }}"><input type=submit value="View"></a></td>
       {%- endfor %}
       </tr>
         </tbody>
