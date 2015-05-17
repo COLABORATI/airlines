@@ -25,8 +25,7 @@ toDestination integer REFERENCES airport,
 departureDate date,
 departureTime time,
 arrivalDate date,
-arrivalTime time,
-duration time);
+arrivalTime time);
 
 CREATE TABLE userprofile(
 userID integer PRIMARY KEY,
