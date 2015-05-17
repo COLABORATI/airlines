@@ -5,7 +5,9 @@
   <form action="" method=post>
     <table class=flights>
       <tr>
-        <th>#
+         <th>#
+        <th>airlineID
+        <th>aircraftID
         <th>From Destination
         <th>To Destination
         <th>Departure Date
@@ -16,7 +18,9 @@
         <th>
       {%- for flight in flight_ %}
       <tr class=title>
-        <td>{{ flight.flightID }}
+         <td>{{ flight.flightID }}
+        <td>{{ flight.airlineID }}
+        <td>{{ flight.aircraftID}}
         <td>{{ flight.fromDestination }}
         <td>{{ flight.toDestination }}
         <td>{{ flight.departureDate }}
