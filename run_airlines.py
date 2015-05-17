@@ -1,19 +1,19 @@
-from models import Flights, app, db
+from models import Flight, Airline, Airport, Aircraft, UserProfile, Account, CreditCard, Booking, app, db
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, session
 from flask_sqlalchemy import SQLAlchemy
 
 
 @app.route('/')
 def show_all():
-    return render_template('show_all.html', flights=Flights.query.order_by(Flights.id.desc()).all())
+    return render_template('show_all.html', flights=Flight.query.order_by(Flight.flightid.desc()).all())
 
-@app.route('/show_flight/<flight_id>', methods=['GET', 'POST'])
-def show_flight(flight_id):
-    return render_template('show_flight.html', flight_=Flights.query.filter(Flights.id==flight_id))
+@app.route('/show_flight/<flightid>', methods=['GET', 'POST'])
+def show_flight(flightid):
+    return render_template('show_flight.html', flight_=Flight.query.filter(Flight.flightid==flightid))
 
 @app.route('/search_flight/<flight_num>', methods=['GET', 'POST'])
 def search_flight(flight_num):
-    return render_template('search_flight.html', flight_=Flights.query.filter(Flights.flight_num==flight_num))
+    return render_template('search_flight.html', flight_=Flight.query.filter(Flight.flightid==flight_num))
 
 #SearchBox
 #class SearchForm(Form):
@@ -29,22 +29,24 @@ def search_flight(flight_num):
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     if request.method == 'POST':
-        if not request.form['flight_no']:
-            flash('Flight number is required', 'error')
-        elif not request.form['airline_name']:
-            flash('Airline name is required', 'error')
-        elif not request.form['flight_time']:
-            flash('Time is required', 'error')
-        elif not request.form['flight_date']:
-            flash('date is required', 'error')
-        elif not request.form['from_dest']:
-            flash('From Destination is required', 'error')
-        elif not request.form['to_dest']:
-            flash('To destination is required', 'error')
-        elif not request.form['gate_no']:
-            flash('Gate is required', 'error')
+        if not request.form['airlineID']:
+            flash('airlineID is required', 'error')
+        elif not request.form['aircraftID']:
+            flash('aircraftID is required', 'error')
+        elif not request.form['fromDestination']:
+            flash('fromDestination is required', 'error')
+        elif not request.form['toDestination']:
+            flash('toDestination is required', 'error')
+        elif not request.form['departureDate']:
+            flash('departureDate is required', 'error')
+        elif not request.form['departureTime']:
+            flash('departureTime is required', 'error')
+        elif not request.form['arrivalDate']:
+            flash('arrivalDate is required', 'error')
+        elif not request.form['arrivalTime']:
+            flash('arrivalTime is required', 'error')
         else:
-            flight = Flights(request.form['flight_no'], request.form['airline_name'],request.form['flight_time'], request.form['flight_date'],request.form['from_dest'], request.form['to_dest'], request.form['gate_no'])
+            flight = Flight(request.form['airlineID'], request.form['aircraftID'],request.form['fromDestination'], request.form['toDestination'],request.form['departureDate'], request.form['departureTime'], request.form['arrivalDate'], request.form['arrivalTime'])
             db.session.add(flight)
             db.session.commit()
             flash(u'Flight successfully created')
