@@ -1,28 +1,28 @@
 {% extends "layout.html" %}
 {% block body %}
 {% if flight_ %}
-  <h2>Flight {{ flight_.id }} </h2>
+  <h2>Flight {{ flight_.flightID }} </h2>
   <form action="" method=post>
     <table class=flights>
       <tr>
         <th>#
-        <th>Flight number
-        <th>Airline name
-        <th>Time
-        <th>Date
         <th>From Destination
         <th>To Destination
-        <th>Gate
+        <th>Departure Date
+        <th>Departure Time
+        <th>Arrival Date
+        <th>Arrival Time
+        <th>
+        <th>
       {%- for flight in flight_ %}
       <tr class=title>
-        <td>{{ flight.id }}
-        <td>{{ flight.flight_num }}
-        <td>{{ flight.airline_name }}
-        <td>{{ flight.time_time }}
-        <td>{{ flight.date_date }}
-        <td>{{ flight.from_dest }}
-        <td>{{ flight.to_dest }}
-        <td>{{ flight.gate_num }}
+        <td>{{ flight.flightID }}
+        <td>{{ flight.fromDestination }}
+        <td>{{ flight.toDestination }}
+        <td>{{ flight.departureDate }}
+        <td>{{ flight.departureTime }}
+        <td>{{ flight.arrivalDate }}
+        <td>{{ flight.arrivalTime }}
       {%- endfor %}
     </table>
     <p>
