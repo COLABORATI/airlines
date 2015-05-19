@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if airlines %}
+  <h1>Airlines</h1>
+  <form action="{{ url_for('new_airline') }}"><input type="submit" value="Create"></form>
+
+    <table class="table_fill">
+      <tr>
+        <th class="text-left">#</th>
+        <th class="text-left">AirlineCode</th>
+        <th class="text-left">AirlineName</th>
+        <th class="text-left"></th>
+      </tr>
+      <tbody class="table-hover">
+      {%- for airline in airlines %}
+      <tr>
+        <td class="text-left">{{ airline.airline_id }}</td>
+        <td class="text-left">{{ airline.airline_code }}</td>
+        <td class="text-left">{{ airline.airline_name }}</td>
+        <td><a href="{{ url_for('delete_airline', airline_id=airline.airline_id) }}"><input type=submit value="Delete"></a>
+        <td><a href="{{ url_for('edit_airport', airline_id=airline.airline_id) }}"><input type=submit value="Edit"></a>
+      {%- endfor %}
+      </tr>
+      </tbody>
+    </table>
+    <p>
+      <form action="{{ url_for('update_done') }}" method=post><input type=submit value="Update"></form>
+            <br>
+      <a href="{{ url_for('show_all') }}"><input type=submit value="Back"></a>
+{% endif %}
+{% endblock %}

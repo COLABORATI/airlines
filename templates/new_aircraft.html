@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>New Aircraft</h2>
+  <form action="" method=post>
+    <p>#
+    <p><input type =number name="aircraft_id">
+    <p>Airline ID:
+    <p><input type=number name="airline_id">
+    <p>Aircraft Type:
+    <p><input type=text name="airlcraft_type">
+    <p>Capacity:
+    <p><input type=text name="capacity">
+    <p><input type=submit value="Create entry"></form>
+    <a href="{{ url_for('show_aircraft') }}"><input type=submit value="Back to Flights"></a>
+{% endblock %}

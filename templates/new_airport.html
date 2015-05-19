@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>New Airport</h2>
+  <form action="" method=post>
+    <p>#
+    <p><input type =number name="airport_id">
+    <p>Airline:
+    <p><input type=number name="airline_id">
+    <p>Airport Code:
+    <p><input type=text name="airport_code">
+    <p>City:
+    <p><input type=text name="city">
+    <p>State:
+    <p><input type=text name="state">
+    <p><input type=submit value="Create entry"></form>
+     <a href="{{ url_for('show_airport') }}"><input type=submit value="Back to Flights"></a>
+{% endblock %}

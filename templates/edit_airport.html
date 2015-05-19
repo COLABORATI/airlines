@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>Edit Airport</h1>
+  <form action="" method=post>
+    <p>
+      Airport Code:
+      <input type=text name=airport_code>
+    <p>City:
+    <p><input type=text name=city>
+    <p>State:
+    <p><input type=number name=state>
+    <input type=submit value="Edit entry">
+    <br>
+    <a href="{{ url_for('show_airport') }}"><input type=submit value="Back"></a>
+  </form>
+{% endblock %}
