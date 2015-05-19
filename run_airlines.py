@@ -5,15 +5,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 @app.route('/')
 def show_all():
-    return render_template('show_all.html', flights=Flight.query.order_by(Flight.flightid.desc()).all())
+    return render_template('show_all.html', flights=Flight.query.order_by(Flight.flight_id.desc()).all())
 
-@app.route('/show_flight/<flightid>', methods=['GET', 'POST'])
-def show_flight(flightid):
-    return render_template('show_flight.html', flight_=Flight.query.filter(Flight.flightid==flightid))
+@app.route('/show_flight/<flight_id>', methods=['GET', 'POST'])
+def show_flight(flight_id):
+    return render_template('show_flight.html', flight_=Flight.query.filter(Flight.flight_id==flight_id))
 
 @app.route('/search_flight/<flight_num>', methods=['GET', 'POST'])
 def search_flight(flight_num):
-    return render_template('search_flight.html', flight_=Flight.query.filter(Flight.flightid==flight_num))
+    return render_template('search_flight.html', flight_=Flight.query.filter(Flight.flight_id==flight_num))
 
 #SearchBox
 #class SearchForm(Form):
@@ -29,24 +29,28 @@ def search_flight(flight_num):
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     if request.method == 'POST':
-        if not request.form['airlineID']:
-            flash('airlineID is required', 'error')
-        elif not request.form['aircraftID']:
+        if not request.form['flight_id']:
+            flash('Flight_id is required', 'error')
+        elif not request.form['airline_id']:
+            flash('airline_id is required', 'error')
+        elif not request.form['aircraft_id']:
             flash('aircraftID is required', 'error')
-        elif not request.form['fromDestination']:
+        elif not request.form['from_destination']:
             flash('fromDestination is required', 'error')
-        elif not request.form['toDestination']:
+        elif not request.form['to_destination']:
             flash('toDestination is required', 'error')
-        elif not request.form['departureDate']:
+        elif not request.form['departure_date']:
             flash('departureDate is required', 'error')
-        elif not request.form['departureTime']:
+        elif not request.form['departure_time']:
             flash('departureTime is required', 'error')
-        elif not request.form['arrivalDate']:
+        elif not request.form['arrival_date']:
             flash('arrivalDate is required', 'error')
-        elif not request.form['arrivalTime']:
+        elif not request.form['arrival_time']:
             flash('arrivalTime is required', 'error')
         else:
-            flight = Flight(request.form['airlineID'], request.form['aircraftID'],request.form['fromDestination'], request.form['toDestination'],request.form['departureDate'], request.form['departureTime'], request.form['arrivalDate'], request.form['arrivalTime'])
+            flight = Flight(request.form['flight_id'],request.form['airline_id'], request.form['aircraft_id'],request.form['from_destination'], 
+            request.form['to_destination'],request.form['departure_date'], request.form['departure_time'], 
+            request.form['arrival_date'], request.form['arrival_time'])
             db.session.add(flight)
             db.session.commit()
             flash(u'Flight successfully created')
@@ -84,7 +88,7 @@ def delete(flight_id):
 
 @app.route('/update', methods=['POST'])
 def update_done():
-    Flights.query.all()
+    Flight.query.all()
     flash('Updated!')
     db.session.commit()
     return redirect(url_for('show_all'))
@@ -93,9 +97,9 @@ def update_done():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
+        if request.form['username'] != Account.query.filter(Account.login_name==request.form['username']).first():
             error = 'Invalid Username'
-        elif request.form['password'] != app.config['PASSWORD']:
+        elif request.form['password'] != Account.query.filter(Account.password==request.form['password']).first():
             error = 'Invalid Password'
         else:
             session['logged_in'] = True
