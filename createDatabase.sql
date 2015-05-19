@@ -1,63 +1,63 @@
 CREATE TABLE airline(
-airlineID integer PRIMARY KEY,
-airlineCode text,
-airlineName text);
+airline_id integer PRIMARY KEY,
+airline_code text,
+airline_name text);
 
 CREATE TABLE aircraft(
-aircraftID integer PRIMARY KEY,
-airlineID integer REFERENCES airline,
-aircraftType text,
+aircraft_id integer PRIMARY KEY,
+airline_id integer REFERENCES airline,
+aircraft_type text,
 capacity integer);
 
 CREATE TABLE airport(
-airportID integer PRIMARY KEY,
-airlineID integer REFERENCES airline,
-airportCode text,
+airport_id integer PRIMARY KEY,
+airline_id integer REFERENCES airline,
+airport_code text,
 city text,
 state text);
 
 CREATE TABLE flight(
-flightID integer PRIMARY KEY,
-airlineID integer REFERENCES airline,
-aircraftID integer REFERENCES aircraft,
-fromDestination integer REFERENCES airport,
-toDestination integer REFERENCES airport,
-departureDate date,
-departureTime time,
-arrivalDate date,
-arrivalTime time);
+flight_id integer PRIMARY KEY,
+airline_id integer REFERENCES airline,
+aircraft_id integer REFERENCES aircraft,
+from_destination integer REFERENCES airport,
+to_destination integer REFERENCES airport,
+departure_date date,
+departure_time time,
+arrival_date date,
+arrival_time time);
 
 CREATE TABLE userprofile(
-userID integer PRIMARY KEY,
-firstName text,
-lastName text,
+user_id integer PRIMARY KEY,
+first_name text,
+last_name text,
 email text,
 phone text,
 street text,
-streetNumber integer,
+street_number integer,
 city text,
 zip text);
 
 CREATE TABLE account(
-accountID integer PRIMARY KEY,
-userID integer REFERENCES userprofile,
-userType text,
-loginName text,
+account_ID integer PRIMARY KEY,
+user_id integer REFERENCES userprofile,
+user_type text,
+login_name text,
 password text);
 
 CREATE TABLE creditcard(
-cardID integer PRIMARY KEY,
-userID integer REFERENCES userprofile,
-cardType text,
-cardNumber integer,
-expirtationMonth integer,
-expirationYear integer);
+card_id integer PRIMARY KEY,
+user_id integer REFERENCES userprofile,
+card_type text,
+card_number integer,
+expirtation_month integer,
+expiration_year integer);
 
 CREATE TABLE booking(
-bookID integer PRIMARY KEY,
-flightID integer REFERENCES flight,
-userID integer REFERENCES userprofile,
-bookDate date,
+book_id integer PRIMARY KEY,
+flight_id integer REFERENCES flight,
+user_id integer REFERENCES userprofile,
+book_date date,
 seats text,
-class text,
+class_ text,
 price numeric);
