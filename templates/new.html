@@ -2,23 +2,24 @@
 {% block body %}
   <h2>New Flight</h2>
   <form action="" method=post>
-    <p>
-      Airline:
-      <input type=text name=airlineID value="{{ request.form.airlineID }}">
+    <p>#
+    <p><input type =number name="flight_id">
+    <p>Airline:
+    <p><input type=number name="airline_id">
     <p>Aircraft:
-    <p><input type=text name=aircraft value="{{ request.form.aircraft }}">
+    <p><input type=number name="aircraft_id">
     <p>From Destination:
-    <p><input type=number name=fromDestination value="{{ request.form.fromDestination }}">
+    <p><input type=number name="from_destination">
     <p>To Destination:
-    <p><input type=number name=toDestination value="{{ request.form.toDestination }}">
+    <p><input type=number name="to_destination">
     <p>Departure Date:
-    <p><input type=text name=departureDate value="{{ request.form.departureDate }}">
+    <p><input type=date name="departure_date">
     <p>Departure Time:
-    <p><input type=text name=departureTime value="{{ request.form.departureTime }}">
+    <p><input type=datetime name="departure_time">
     <p>Arrival Date:
-    <p><input type=text name=arrivaldate value="{{ request.form.arrivalDate }}">
+    <p><input type=date name="arrival_date">
     <p>Arrival Time:
-    <p><input type=text name=arrivalTime value="{{ request.form.arrivalTime }}">
+    <p><input type=datetime name="arrival_time">
       <input type=submit value="Create entry"></form>
       <a href="{{ url_for('show_all') }}"><input type=submit value="Back to List"></a>
   
