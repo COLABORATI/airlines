@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
   <h2>All Items</h2>
-<p> 
+  <p>
   <form action="{{ url_for('update_done') }}" method=post><input type=submit value="Update"></form>
-   <br>
-  <form action="{{ url_for('new') }}"><input type="submit" value="Create"></form>
+  <form action="{{ url_for('show_flight') }}"><input type="submit" value="Flights"></form>
+  <form action="{{ url_for('show_airport') }}"><input type="submit" value="Airports"></form>
+  <form action="{{ url_for('show_airline') }}"><input type="submit" value="Airlines"></form>
+  <form action="{{ url_for('show_aircraft') }}"><input type="submit" value="Aircrafts"></form>
   <form action="{{ url_for('search_flight', flight_num=flightsearch) }}">
   Search Flight:
   <input type="search" name="flightsearch">
@@ -29,16 +31,16 @@
         <tbody class="table-hover">
       {%- for flight in flights %}
       <tr>
-        <td class="text-left">{{ flight.flightID }}</td>
-        <td class="text-left">{{ flight.airlineID }}</td>
-        <td class="text-left">{{ flight.aircraftID }}</td>
-        <td class="text-left">{{ flight.fromDestination }}</td>
-        <td class="text-left">{{ flight.toDestination }}</td>
-        <td class="text-left">{{ flight.departureDate }}</td>
-        <td class="text-left">{{ flight.departureTime }}</td>
-        <td class="text-left">{{ flight.arrivalDate }}</td>
-        <td class="text-left">{{ flight.arrivalTime }}</td>
-        <td class="text-left"><a href="{{ url_for('show_flight', flightID=flight.flightID) }}"><input type=submit value="View"></a></td>
+        <td class="text-left">{{ flight.flight_id }}</td>
+        <td class="text-left">{{ flight.airline_id }}</td>
+        <td class="text-left">{{ flight.aircraft_id }}</td>
+        <td class="text-left">{{ flight.from_destination }}</td>
+        <td class="text-left">{{ flight.to_destination }}</td>
+        <td class="text-left">{{ flight.departure_date }}</td>
+        <td class="text-left">{{ flight.departure_time }}</td>
+        <td class="text-left">{{ flight.arrival_date }}</td>
+        <td class="text-left">{{ flight.arrival_time }}</td>
+        <td class="text-left"><a href="{{ url_for('show_flight', flight_id=flight.flight_id) }}"><input type=submit value="View"></a></td>
       {%- endfor %}
       </tr>
         </tbody>
