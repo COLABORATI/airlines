@@ -1,3 +1,4 @@
+"""Describing the database tables with classes that will be mapped to tables"""
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -6,6 +7,8 @@ app.config.from_pyfile('config.cfg')
 db = SQLAlchemy(app)
 
 class Airline(db.Model):
+    """Mapped class airline"""
+
     __tablename__ = 'airline'
 
     airline_id = db.Column(db.Integer, primary_key=True)
@@ -17,6 +20,8 @@ class Airline(db.Model):
         self.airline_name = airline_name
 
 class Airport(db.Model):
+    """Mapped classs airport"""
+
     __tablename__ = 'airport'
 
     airport_id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +37,8 @@ class Airport(db.Model):
         self.state = state
 
 class Aircraft(db.Model):
+    """Mapped class aircraft"""
+
     __tablename__ = 'aircraft'
 
     aircraft_id = db.Column(db.Integer, primary_key=True)
@@ -45,6 +52,8 @@ class Aircraft(db.Model):
         self.capacity = capacity
 
 class Flight(db.Model):
+    """Mapped Class Flight"""
+
     __tablename__ = 'flight'
 
     flight_id = db.Column(db.Integer, primary_key=True)
@@ -52,22 +61,31 @@ class Flight(db.Model):
     airline = db.relationship('Airline', backref=db.backref('flight', order_by=flight_id))
     aircraft_id = db.Column(db.Integer, db.ForeignKey('aircraft.aircraft_id'))
     aircraft = db.relationship('Aircraft', backref=db.backref('flight', order_by=flight_id))
-    fromdestination = db.Column(db.Integer, db.ForeignKey('airport.airport_id'))
-    todestination = db.Column(db.Integer, db.ForeignKey('airport.airport_id'))
-    fromdest = db.relationship('Airport',backref=db.backref('fromDest', order_by=flight_id), foreign_keys=[fromdestination])
-    todest = db.relationship('Airport',backref=db.backref('toDest', order_by=flight_id), foreign_keys=[todestination])
-    departuredate = db.Column(db.DateTime)
-    departuretime = db.Column(db.DateTime)
-    arrivaldate = db.Column(db.DateTime)
-    arrivaltime = db.Column(db.DateTime)
+    from_destination = db.Column(db.Integer, db.ForeignKey('airport.airport_id'))
+    to_destination = db.Column(db.Integer, db.ForeignKey('airport.airport_id'))
+    from_dest = db.relationship('Airport',backref=db.backref('fromDest', order_by=flight_id), foreign_keys=[from_destination])
+    to_dest = db.relationship('Airport',backref=db.backref('toDest', order_by=flight_id), foreign_keys=[to_destination])
+    departure_date = db.Column(db.DateTime)
+    departure_time = db.Column(db.DateTime)
+    arrival_date = db.Column(db.DateTime)
+    arrival_time = db.Column(db.DateTime)
 
-    def __init__(self, departuredate, departuretime, arrivaldate, arrivaltime):
-        self.departuredate = departuredate
-        self.departuretime = departuretime
-        self.arrivaldate = arrivaldate
-        self.arrivaltime = arrivaltime
+    def __init__(self, flight_id, airline_id, aircraft_id,
+            from_destination, to_destination, departure_date,
+            departure_time, arrival_date, arrival_time):
+        self.flight_id = flight_id
+        self.airline_id = airline_id
+        self.aircraft_id = aircraft_id
+        self.from_destination = from_destination
+        self.to_destination = to_destination
+        self.departure_date = departure_date
+        self.departure_time = departure_time
+        self.arrival_date = arrival_date
+        self.arrival_time = arrival_time
 
 class UserProfile(db.Model):
+    """Mapped Class User Profile"""
+
     __tablename__ = 'userprofile'
 
     user_id = db.Column(db.Integer, primary_key=True)
@@ -91,6 +109,8 @@ class UserProfile(db.Model):
         self.zip_code = zip_code
 
 class Account(db.Model):
+    """Mapped Class Account"""
+
     __tablename__ = 'account'
 
     account_id = db.Column(db.Integer, primary_key=True)
@@ -106,6 +126,8 @@ class Account(db.Model):
         self.password = password
 
 class CreditCard(db.Model):
+    """Mapped Class Credit Card"""
+
     __tablename__ = 'creditcard'
 
     card_id = db.Column(db.Integer, primary_key=True)
@@ -123,6 +145,8 @@ class CreditCard(db.Model):
         self.expiration_year = expiration_year
 
 class Booking(db.Model):
+    """Mapped Class Booking"""
+
     __tablename__ = 'booking'
 
     book_id = db.Column(db.Integer, primary_key=True)
