@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if users %}
+<h1>Users</h1>
+  <form action="{{ url_for('register') }}"><input type="submit" value="Create"></form>
+
+    <table class="table_fill">
+        <thread>
+      <tr>
+        <th class="text-left">#</th>
+        <th class="text-left">UserID</th>
+        <th class="text-left">First Name</th>
+        <th class="text-left">Last Name</th>
+        <th class="text-left">Email</th>
+        <th class="text-left">Phone Number</th>
+        <th class="text-left">Street</th>
+        <th class="text-left">Street Number</th>
+        <th class="text-left">City</th>
+        <th class="text-left">ZIP</th>
+        <th class="text-left"></th>
+      </tr>
+        </thread>
+        <tbody class="table-hover">
+      {%- for user in users %}
+      <tr>
+        <td class="text-left">{{ user.user_id }}</td>
+        <td class="text-left">{{ user.first_name }}</td>
+        <td class="text-left">{{ user.last_name }}</td>
+        <td class="text-left">{{ user.email }}</td>
+        <td class="text-left">{{ user.phone }}</td>
+        <td class="text-left">{{ user.street }}</td>
+        <td class="text-left">{{ user.street_number }}</td>
+        <td class="text-left">{{ user.city }}</td>
+        <td class="text-left">{{ user.zip_code }}</td>
+        <td><a href="{{ url_for('delete_user', user_id=user.user_id) }}"><input type=submit value="Delete"></a>
+        <td><a href="{{ url_for('edit_user', user_id=user.user_id) }}"><input type=submit value="Edit"></a>
+      {%- endfor %}
+      </tr>
+      </tbody>
+    </table>
+    <p>
+      <form action="{{ url_for('update_done') }}" method=post><input type=submit value="Update"></form>
+            <br>
+      <a href="{{ url_for('show_all') }}"><input type=submit value="Back"></a>
+{% endif %}
+{% endblock %}
