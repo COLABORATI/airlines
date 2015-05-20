@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>Register</h1>
+  <form action="" method=post>
+    <p>#
+    <p><input type =number name=user_id>
+    <p>First Name:
+    <p><input type=number name=first_name>
+    <p>Last Name:
+    <p><input type=text name=last_name>
+    <p>Email:
+    <p><input type=text name=email>
+    <p>Phone Number:
+    <p><input type=text name=phone>
+    <p>Street:
+    <p><input type=text name=street>
+    <p>Street Number:
+    <p><input type=text name=street_number>
+    <p>City:
+    <p><input type=text name=city>
+    <p>ZIP:
+    <p><input type=text name=zip_code>
+    <p><input type=submit value="Create entry"></form>
+    <a href="{{ url_for('show_userprofile') }}"><input type=submit value="Back to Flights"></a>
+{% endblock %}
