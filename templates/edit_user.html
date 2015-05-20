@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>Edit Profile</h1>
+  <form action="" method=post>
+    <p>
+      First Name:
+      <input type=text name=first_name value="{{ user_edit.first_name }}">
+    <p>Last Name:
+    <p><input type=text name=last_name value="{{ user_edit.last_name }}">
+    <p>Email:
+    <p><input type=text name=email value="{{ user_edit.email }}">
+    <p>Phone Number:
+    <p><input type=text name=phone value="{{ user_edit.phone }}">
+    <p>Street:
+    <p><input type=text name=street value="{{ user_edit.street}}">
+    <p>Street Number:
+    <p><input type=number name=steet_number value="{{ user_edit.street_number}}">
+    <p>City:
+    <p><input type=text name=city value="{{ user_edit.city}}">
+    <p>ZIP:
+    <p><input type=number name=zip_code value="{{ user_edit.zip_code}}">
+    <input type=submit value="Edit entry">
+    <br>
+    <a href="{{ url_for('show_userprofile') }}"><input type=submit value="Back"></a>
+  </form>
+{% endblock %}
