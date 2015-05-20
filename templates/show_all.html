@@ -5,7 +5,8 @@
   <form action="{{ url_for('update_done') }}" method=post><input type=submit value="Update"></form>
 {%if session['type'] == 'user'%}
   <form action="{{ url_for('current_user', user_id=session['id'])}}"><input type="submit" value="Profile"></form>
-  {%elif session['type'] == 'admin'%}
+  <form action="{{ url_for('current_flights')}}"><input type="submit" value="Flights"></form>
+{%elif session['type'] == 'admin'%}
   <form action="{{ url_for('show_airport') }}"><input type="submit" value="Airports"></form>
   <form action="{{ url_for('show_airline') }}"><input type="submit" value="Airlines"></form>
   <form action="{{ url_for('show_aircraft') }}"><input type="submit" value="Aircrafts"></form>
