@@ -1,6 +1,8 @@
 from models import Flight, Airline, Airport, Aircraft, UserProfile, Account, CreditCard, Booking, app, db
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, session, escape
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import aliased
+
 @app.route('/')
 def show_all():
     return render_template('show_all.html', flights=Flight.query.order_by(Flight.flight_id.desc()).all())
@@ -32,6 +34,16 @@ def search_flight(flight_id):
 @app.route('/current_user/<user_id>', methods=['GET', 'POST'])
 def current_user(user_id):
     return render_template('show_userprofile.html', users=UserProfile.query.filter(UserProfile.user_id==user_id))
+
+@app.route('/current_flights', methods=['GET', 'POST'])
+def current_flights():
+    alias1 = aliased(Airport)
+    alias2 = aliased(Airport)
+    return render_template('show_all.html', flights= db.session.query(Flight.flight_id, Airline.airline_name,
+        Aircraft.aircraft_type, alias1.airport_code, alias2.airport_code, Flight.departure_date,
+        Flight.departure_time, Flight.arrival_date, Flight.arrival_time).join(Flight, Airline.flight).\
+        join(Flight, Aircraft.flight).join(alias1, alias1.airport_id==Flight.from_destination).join(alias2, alias2.airport_id==Flight.to_destination).\
+        group_by(Flight.flight_id))
 
 #SearchBox
 #class SearchForm(Form):
