@@ -3,22 +3,25 @@
   <h2>Edit Flight</h2>
   <form action="" method=post>
     <p>
-      Flight Number:
-      <input type=text name=flight_number value="{{ flight_edit.flight_num }}">
-    <p>Airline Name:
-    <p><input type=text name=airline_name value="{{ flight_edit.airline_name }}">
-    <p>Time:
-    <p><input type=number name=time_time value="{{ flight_edit.time_time }}">
-    <p>Date:
-    <p><input type=number name=date_date value="{{ flight_edit.date_date }}">
+      Airline ID:
+      <input type=number name="airline_id" value="{{ flight_edit.airline_id }}">
+    <p>Aircraft ID:
+    <p><input type=number name="aircraft_id" value="{{ flight_edit.aircraft_id }}">
     <p>From Destination:
-    <p><input type=text name=from_dest value="{{ flight_edit.from_dest }}">
+    <p><input type=number name="from_destination" value="{{ flight_edit.from_destination }}">
     <p>To Destination:
-    <p><input type=text name=to_dest value="{{ flight_edit.to_dest }}">
-    <p>Gate:
-    <p><input type=text name=gate_num value="{{ flight_edit.gate_num }}">
+    <p><input type=number name="to_destination" value="{{ flight_edit.to_destination }}">
+    <p>Departure Date:
+    <p><input type=date name="departure_date" value="{{ flight_edit.departure_date }}">
+    <p>Departure Time:
+    <p><input type=datetime name="daperture_time" value="{{ flight_edit.departure_time }}">
+    <p>Arrival Date:
+    <p><input type=date name="arrival_date" value="{{ flight_edit.arrival_date }}">
+    <p>Arrival Time:
+    <p><input type=datetime name="arrival_time" value="{{ flight_edit.arrival_time }}">
     <p>
-      <input type=submit value="Edit entry">
-      <a href="{{ url_for('show_all') }}">Back to list</a>
+    <input type=submit value="Edit entry">
+    <br>
+    <a href="{{ url_for('show_flight') }}"><input type=submit value="Back"></a>
   </form>
 {% endblock %}

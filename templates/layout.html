@@ -13,12 +13,16 @@
     <a href="{{ url_for('logout') }}">log out</a>
   {% endif %}
   </div>
+  {% if  session['id'] %}
+  <p>Hi {{ session['username']}}</p>
+  {% endif %}
 {%- for category, message in get_flashed_messages(with_categories=true) %}
   <p class="flask {{ category }}-flash">{{
     "Error: " if category == 'error' }}{{ message }}</p>
 {%- endfor %}
 
-{% block body %}{% endblock %}
+{% block body %}
+{% endblock %}
 </div>
 <hr>
 <div class="footer">

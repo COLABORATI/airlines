@@ -5,7 +5,6 @@
   <form action="{{ url_for('new_airport') }}"><input type="submit" value="Create"></form>
 
     <table class="table_fill">
-        
       <tr>
         <th class="text-left">#</th>
         <th class="text-left">AirlineID</th>
@@ -13,8 +12,8 @@
         <th class="text-left">City</th>
         <th class="text-left">State</th>
         <th class="text-left"></th>
+        <th class="text-left"></th>
       </tr>
-        
         <tbody class="table-hover">
       {%- for airport in airports %}
       <tr>

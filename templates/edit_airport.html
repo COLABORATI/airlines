@@ -4,11 +4,11 @@
   <form action="" method=post>
     <p>
       Airport Code:
-      <input type=text name=airport_code>
+      <input type=text name=airport_code value="{{ airport_edit.airport_code}}">
     <p>City:
-    <p><input type=text name=city>
+    <p><input type=text name=city value="{{ airport_edit.city}}">
     <p>State:
-    <p><input type=number name=state>
+    <p><input type=text name=state value="{{ airport_edit.state}}">
     <input type=submit value="Edit entry">
     <br>
     <a href="{{ url_for('show_airport') }}"><input type=submit value="Back"></a>
