@@ -1,5 +1,5 @@
 from models import Flight, Airline, Airport, Aircraft, UserProfile, Account, CreditCard, Booking, app, db
-from flask import Flask, request, flash, url_for, redirect, render_template, abort, session
+from flask import Flask, request, flash, url_for, redirect, render_template, abort, session, escape
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -22,6 +22,14 @@ def show_airline():
 @app.route('/show_aircraft', methods=['GET', 'POST'])
 def show_aircraft():
     return render_template('show_aircraft.html', aircrafts=Aircraft.query.order_by(Aircraft.aircraft_id.desc()).all())
+
+@app.route('/show_userprofile', methods=['GET', 'POST'])
+def show_userprofile():
+    return render_template('show_userprofile.html', users=UserProfile.query.order_by(UserProfile.user_id.desc()).all())
+
+@app.route('/show_user/<user_id>', methods=['GET', 'POST'])
+def show_user(user_id):
+    return render_template('show_user.html', user=UserProfile.query.order_by(UserProfile.user_id==user_id))
 
 @app.route('/search_flight/<flight_num>', methods=['GET', 'POST'])
 def search_flight(flight_num):
@@ -117,7 +125,7 @@ def new_airline():
 
 @app.route('/new_aircraft', methods=['GET', 'POST'])
 def new_aircraft():
-    """Create new airline"""
+    """Create new airlie"""
     if request.method == 'POST':
         if not request.form['aircraft_id']:
             flash('aircraft_id is required', 'error')
@@ -136,28 +144,60 @@ def new_aircraft():
             return redirect(url_for('show_aircraft'))
     return render_template('new_aircraft.html')
 
-
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    """Register new user"""
+    if request.method == 'POST':
+        if not request.form['user_id']:
+            flash('User_id is required', 'error')
+        elif not request.form['first_name']:
+            flash('First Name is required', 'error')
+        elif not request.form['last_name']:
+            flash('Last Name is required')
+        elif not request.form['email']:
+            flash('Email is required', 'error')
+        elif not requst.form['phone']:
+            flash('Phone number is required', 'error')
+        elif not request.form['street']:
+            flash('Street is required', 'error')
+        elif not request.form['street_number']:
+            flash('Number is required', 'error')
+        elif not request.form['city']:
+            flash('City is required', 'error')
+        elif not request.form['zip_code']:
+            flash('ZIP code is required', 'error')
+        else:
+            user = UserProfile(request.form['user_id'], request.form['first_name'],
+                    request.form['last_name'], request.form['email'], request.form['phone'],
+                    request.form['street'],request.form['steet_number'], request.form['city'],
+                    request.form['zip_code'])
+            db.session.add(user)
+            db.session.commit()
+            flash(u'Successfully registered')
+            return redirect(url_for('show_userprofile'))
+    return render_template('register_user.html')
 
 """=================== EDIT ==================="""
 
 
 @app.route('/edit/<flight_id>', methods=['GET', 'POST'])
 def edit(flight_id):
-    flight_edit = Flights.query.get(flight_id)
+    flight_edit = Flight.query.get(flight_id)
     if flight_edit == None:
         flush('Flight does not exist')
         return redirect(url_for('show_all'))
     elif request.method == 'POST':
-        flight_edit.flight_num = request.form['flight_number']
-        flight_edit.airline_name = request.form['airline_name']
-        flight_edit.time_time = request.form['time_time']
-        flight_edit.date_date = request.form['date_date']
-        flight_edit.from_dest = request.form['from_dest']
-        flight_edit.to_dest = request.form['to_dest']
-        flight_edit.gate_num = request.form['gate_num']
+        flight_edit.airline_id = request.form['airline_id']
+        flight_edit.aircraft_id = request.form['aircraft_id']
+        flight_edit.from_destination = request.form['from_destination']
+        flight_edit.to_destination = request.form['to_destination']
+        flight_edit.departure_date = request.form['departure_date']
+        flight_edit.departure_time = request.form['departure_time']
+        flight_edit.arrival_date = request.form['arrival_date']
+        flight_edit.arrival_time = request.form['arrival_time']
         db.session.commit()
         flash('Flight successfully edited')
-        return redirect(url_for('show_all'))
+        return redirect(url_for('show_flight'))
     return render_template('edit.html', flight_edit=flight_edit)
 
 @app.route('/edit_airport/<airport_id>', methods=['GET', 'POST'])
@@ -172,7 +212,7 @@ def edit_airport(airport_id):
         airport_edit.city = request.form['city']
         airport_edit.state = request.form['state']
         db.session.commit()
-        flash('Flight successfully edited')
+        flash('Airport successfully edited')
         return redirect(url_for('show_airport'))
     return render_template('edit_airport.html', airport_edit=airport_edit)
 
@@ -206,6 +246,27 @@ def edit_aircraft(aircraft_id):
         return redirect(url_for('show_aircraft'))
     return render_template('edit_aircraft.html', aircraft_edit=aircraft_edit)
 
+@app.route('/edit_user/<user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+    """Edit method for editing airline"""
+    user_edit = UserProfile.query.get(user_id)
+    if user_edit == None:
+        flush('Aircraft does not exist')
+        return redirect(url_for('show_userprofile'))
+    elif request.method == 'POST':
+        user_edit.first_name = request.form['first_name']
+        user_edit.last_name = request.form['last_name']
+        user_edit.email = request.form['email']
+        user_edit.phone = request.form['phone']
+        user_edit.street = request.form['street']
+        user_edit.street_number = request.form['street_number']
+        user_edit.city = request.form['city']
+        user_edit.zip_code = request.form['zip_code']
+        db.session.commit()
+        flash('Aircraft successfully edited')
+        return redirect(url_for('show_userprofile'))
+    return render_template('edit_user.html', user_edit=user_edit)
+
 """=================== DELETE ==================="""
 
 @app.route('/delete/<flight_id>', methods=['GET', 'POST'])
@@ -230,7 +291,7 @@ def delete_airport(airport_id):
 
 @app.route('/delete_airline/<airline_id>', methods=['GET', 'POST'])
 def delete_airline(airline_id):
-    """Method for deleting airline"""
+    """Method fior deleting airline"""
     delete_airline = Airline.query.get(airline_id)
     db.session.delete(delete_airline)
     flash('Airline deleted!')
@@ -245,6 +306,15 @@ def delete_aircraft(airline_id):
     flash('Airline deleted!')
     db.session.commit()
     return redirect(url_for('show_aircraft'))
+
+@app.route('/delete_user/<user_id>', methods=['GET', 'POST'])
+def delete_user(user_id):
+    """Method for deleting users"""
+    delete_user = UserProfile.query.get(user_id)
+    db.session.delete(delete_user)
+    flash('User deleted!')
+    db.session.commit()
+    return redirect(url_for('show_userprofile'))
 
 @app.route('/update', methods=['POST'])
 def update_done():
@@ -267,6 +337,7 @@ def login():
         elif request.form['password'] != user.password:
             error = 'Invalid Password'
         else:
+            session['username'] = user.login_name
             session['logged_in'] = True
             flash('You were log in!')
             return redirect(url_for('show_all'))
