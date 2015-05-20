@@ -98,6 +98,18 @@ class UserProfile(db.Model):
     city = db.Column(db.String)
     zip_code = db.Column(db.String)
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.user_id)
+
     def __init__(self, first_name, last_name, email, phone, street, street_number, city, zip_code):
         self.first_name = first_name
         self.last_name = last_name
