@@ -13,7 +13,7 @@
     <a href="{{ url_for('logout') }}">log out</a>
   {% endif %}
   </div>
-  {% if  session['id'] %}
+  {% if session['id'] %}
   <p>Hi {{ session['username']}}</p>
   {% endif %}
 {%- for category, message in get_flashed_messages(with_categories=true) %}
@@ -22,7 +22,7 @@
 {%- endfor %}
 
 {% block body %}
-{% endblock %}
+{%endblock%}
 </div>
 <hr>
 <div class="footer">
