@@ -1,0 +1,30 @@
+<!doctype html>
+<head>
+    {% block head %}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<title>{% block title %}{% endblock%}Airline System</title>
+    {% endblock %}
+<div class="page">
+  <h1>Airlines</h1>
+<div class=metanav>
+  {% if not session.logged_in %}
+    <a href="{{ url_for('login') }}">log in</a>
+  {% else %}
+    <a href="{{ url_for('logout') }}">log out</a>
+  {% endif %}
+  </div>
+  {% if  session['id'] %}
+  <p>Hi {{ session['username']}}</p>
+  {% endif %}
+{%- for category, message in get_flashed_messages(with_categories=true) %}
+  <p class="flask {{ category }}-flash">{{
+    "Error: " if category == 'error' }}{{ message }}</p>
+{%- endfor %}
+
+{% block body %}
+{% endblock %}
+</div>
+<hr>
+<div class="footer">
+<address>SQLAlchemy and Flask powered airline reservation system application</address>
+</div>
