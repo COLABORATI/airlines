@@ -1,8 +1,6 @@
 from models import Flight, Airline, Airport, Aircraft, UserProfile, Account, CreditCard, Booking, app, db
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, session, escape
 from flask_sqlalchemy import SQLAlchemy
-
-
 @app.route('/')
 def show_all():
     return render_template('show_all.html', flights=Flight.query.order_by(Flight.flight_id.desc()).all())
@@ -27,13 +25,13 @@ def show_aircraft():
 def show_userprofile():
     return render_template('show_userprofile.html', users=UserProfile.query.order_by(UserProfile.user_id.desc()).all())
 
-@app.route('/show_user/<user_id>', methods=['GET', 'POST'])
-def show_user(user_id):
-    return render_template('show_user.html', user=UserProfile.query.order_by(UserProfile.user_id==user_id))
+@app.route('/search_flight/<flight_id>', methods=['GET', 'POST'])
+def search_flight(flight_id):
+    return render_template('show_flight.html', flight=Flight.query.order_by(Flight.user_id==flight_id))
 
-@app.route('/search_flight/<flight_num>', methods=['GET', 'POST'])
-def search_flight(flight_num):
-    return render_template('search_flight.html', flight_=Flight.query.filter(Flight.flight_id==flight_num))
+@app.route('/current_user/<user_id>', methods=['GET', 'POST'])
+def current_user(user_id):
+    return render_template('show_userprofile.html', users=UserProfile.query.filter(UserProfile.user_id==user_id))
 
 #SearchBox
 #class SearchForm(Form):
@@ -319,11 +317,10 @@ def delete_user(user_id):
 @app.route('/update', methods=['POST'])
 def update_done():
     """Update All Flight"""
-
     Flight.query.all()
     flash('Updated!')
     db.session.commit()
-    return redirect(url_for('show_flight'))
+    return redirect(url_for('show_all'))
 
 """=================== LOGIN ==================="""
 
@@ -338,6 +335,8 @@ def login():
             error = 'Invalid Password'
         else:
             session['username'] = user.login_name
+            session['id'] = user.user_id
+            session['type'] = user.user_type
             session['logged_in'] = True
             flash('You were log in!')
             return redirect(url_for('show_all'))
@@ -346,9 +345,11 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
+    session.pop('username', None)
+    session.pop('id', None)
+    session.pop('type', None)
     flash('You were logged out')
     return redirect(url_for('show_all'))
-
 
 
 if __name__ == '__main__':
