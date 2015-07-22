@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>New Booking</h2>
+  <form action="" method=post>
+    <p>#
+    <p><input type =number name="booking_id">
+    <p>FightID:
+    <p><input type=number name="flight_id">
+    <p>UserID:
+    <p><input type=number name="user_id">
+    <p>BookDate:
+    <p><input type=date name="book_date">
+    <p>Seats:
+    <p><input type=number name="seats">
+    <p>Class:
+    <p><input type=text name="class_">
+    <p>Price:
+    <p><input type=number name="price">
+    <p><input type=submit value="Create entry"></form>
+    <a href="{{ url_for('show_bookings') }}"><input type=submit value="Back to Bookings"></a>
+{% endblock %}
