@@ -4,9 +4,9 @@
   <form action="" method=post>
     <p>
       Aircraft Type:
-      <input type=text name=aircraft_type value="{{ aircraft_edit.aircraft_type}}">
+      <input type=text name="aircraft_type" value="{{ aircraft_edit.aircraft_type}}">
     <p>Capacity:
-    <p><input type=number name=capacity value="{{ aircraft_edit.capacity}}">
+    <p><input type=number name="capacity" value="{{ aircraft_edit.capacity}}">
     <input type=submit value="Edit entry">
     <br>
     <a href="{{ url_for('show_aircraft') }}"><input type=submit value="Back"></a>
