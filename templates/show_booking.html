@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>All Items</h2>
+  <p>
+ <form action="{{ url_for('new_booking') }}"><input type="submit" value="Create"></form>
+ 
+  </form>
+</p>
+{%if bookings%}
+    <table class="table_fill">
+        <thread>
+      <tr>
+        <th class="text-left">#</th>
+        <th class="text-left">FlightID</th>
+        <th class="text-left">UserID</th>
+        <th class="text-left">BookDate</th>
+        <th class="text-left">Seat</th>
+        <th class="text-left">Class</th>
+        <th class="text-left">Price</th>
+        <th class="text-left"></th>
+      </tr>
+        </thread>
+        <tbody class="table-hover">
+      {% for book in bookings%}
+      <tr>
+        <td class="text-left">{{ book.book_id }}</td>
+        <td class="text-left">{{ book.flight_id }}</td>
+        <td class="text-left">{{ book.user_id }}</td>
+        <td class="text-left">{{ book.book_date }}</td>
+        <td class="text-left">{{ book.seats }}</td>
+        <td class="text-left">{{ book.class_ }}</td>
+        <td class="text-left">{{ book.price }}</td>
+        <td class="text-left"><a href={{ url_for('view_book', book_id=book.book_id)}}><input type=submit value="View"></a></td>
+      {% endfor %}
+      </tr>
+        </tbody>
+    </table>
+    {%endif%}
+    {%if book_%}
+    <table class="table_fill">
+        <thread>
+      <tr>
+        <th class="text-left">#</th>
+        <th class="text-left">First Name</th>
+        <th class="text-left">Last Name</th>
+        <th class="text-left">From Destination</th>
+        <th class="text-left">To Destination</th>
+        <th class="text-left">Seat</th>
+        <th class="text-left">Class</th>
+        <th class="text-left">Price</th>
+        <th class="text-left"></th>
+      </tr>
+        </thread>
+        <tbody class="table-hover">
+      {% for book_id, first_name, last_name, from_dest, to_dest, seat, class_, price in book_%}
+      <tr>
+        <td class="text-left">{{ book_id }}</td>
+        <td class="text-left">{{ first_name }}</td>
+        <td class="text-left">{{ last_name }}</td>
+        <td class="text-left">{{ from_dest }}</td>
+        <td class="text-left">{{ to_dest }}</td>
+        <td class="text-left">{{ seat }}</td>
+        <td class="text-left">{{ class_ }}</td>
+        <td class="text-left">{{ price }}</td>
+        <td><a href="{{ url_for('delete_book', book_id=book_id) }}"><input type=submit value="Delete"></a>
+       {% endfor %}
+      </tr>
+        </tbody>
+    </table>
+    {%endif%}
+    <p> <a href="{{ url_for('current_flights') }}"><input type=submit value="Back"></a>
+
+{% endblock %}
