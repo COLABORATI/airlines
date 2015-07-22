@@ -2,13 +2,12 @@
 {% block body %}
 {% if users %}
 <h1>Users</h1>
-  <form action="{{ url_for('register') }}"><input type="submit" value="Create"></form>
+  
 
     <table class="table_fill">
         <thread>
       <tr>
         <th class="text-left">#</th>
-        <th class="text-left">UserID</th>
         <th class="text-left">First Name</th>
         <th class="text-left">Last Name</th>
         <th class="text-left">Email</th>
@@ -17,6 +16,7 @@
         <th class="text-left">Street Number</th>
         <th class="text-left">City</th>
         <th class="text-left">ZIP</th>
+        <th class="text-left"></th>
         <th class="text-left"></th>
       </tr>
         </thread>
@@ -41,6 +41,6 @@
     <p>
       <form action="{{ url_for('update_done') }}" method=post><input type=submit value="Update"></form>
             <br>
-      <a href="{{ url_for('show_all') }}"><input type=submit value="Back"></a>
+      <a href="{{ url_for('current_flights') }}"><input type=submit value="Back"></a>
 {% endif %}
 {% endblock %}

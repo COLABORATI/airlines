@@ -3,23 +3,31 @@
   <h1>Register</h1>
   <form action="" method=post>
     <p>#
-    <p><input type =number name=user_id>
+    <p><input type =number name="user_id">
     <p>First Name:
-    <p><input type=number name=first_name>
+    <p><input type=text name="first_name">
     <p>Last Name:
-    <p><input type=text name=last_name>
+    <p><input type=text name="last_name">
     <p>Email:
-    <p><input type=text name=email>
+    <p><input type=text name="email">
     <p>Phone Number:
-    <p><input type=text name=phone>
+    <p><input type=text name="phone">
     <p>Street:
-    <p><input type=text name=street>
+    <p><input type=text name="street">
     <p>Street Number:
-    <p><input type=text name=street_number>
+    <p><input type=number name="street_number">
     <p>City:
-    <p><input type=text name=city>
+    <p><input type=text name="city">
     <p>ZIP:
-    <p><input type=text name=zip_code>
+    <p><input type=number name="zip_code">
+    <p>Account_ID:
+    <p><input type=number name="account_id">
+    <p>UserType:
+    <p><input type=text name="user_type">
+    <p>LoginName:
+    <p><input type=text name="login_name">
+    <p>Password:
+    <p><input type=password name="password">
     <p><input type=submit value="Create entry"></form>
-    <a href="{{ url_for('show_userprofile') }}"><input type=submit value="Back to Flights"></a>
+    <a href="{{ url_for('current_flights') }}"><input type=submit value="Back"></a>
 {% endblock %}

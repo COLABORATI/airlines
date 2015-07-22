@@ -4,9 +4,9 @@
   <form action="" method=post>
     <p>
       Airline Code:
-      <input type=text name=airline_code value="{{ airline_edit.airline_code}}">
+      <input type=text name="airline_code" value="{{ airline_edit.airline_code}}">
     <p>Airline Name:
-    <p><input type=text name=airline_name value="{{ airline_edit.airline_name}}">
+    <p><input type=text name="airline_name" value="{{ airline_edit.airline_name}}">
     <input type=submit value="Edit entry">
     <br>
     <a href="{{ url_for('show_airline') }}"><input type=submit value="Back"></a>

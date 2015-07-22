@@ -6,12 +6,15 @@
 {%if session['type'] == 'user'%}
   <form action="{{ url_for('current_user', user_id=session['id'])}}"><input type="submit" value="Profile"></form>
   <form action="{{ url_for('current_flights')}}"><input type="submit" value="Flights"></form>
+  <form action="{{ url_for('show_user_booking', user_id=session['id'])}}"><input type="submit" value="My Bookings"></form>
 {%elif session['type'] == 'admin'%}
   <form action="{{ url_for('show_airport') }}"><input type="submit" value="Airports"></form>
   <form action="{{ url_for('show_airline') }}"><input type="submit" value="Airlines"></form>
   <form action="{{ url_for('show_aircraft') }}"><input type="submit" value="Aircrafts"></form>
   <form action="{{ url_for('show_flight') }}"><input type="submit" value="Flights"></form>
   <form action="{{ url_for('show_userprofile') }}"><input type="submit" value="Users"></form>
+  <form action="{{ url_for('show_bookings') }}"><input type="submit" value="Bookings"></form>
+  <form action="{{ url_for('current_dates') }}"><input type="submit" value="Today"></form>
   <form action="{{ url_for('search_flight', flight_id=flightsearch) }}">
   Search Flight:
   <input type="search" name="flightsearch">
@@ -35,18 +38,18 @@
       </tr>
         </thread>
         <tbody class="table-hover">
-      {%- for flight in flights %}
+      {%- for flight_id, airline, aircraft, from_dest, to_dest, dep_date, dep_time, arr_date, arr_time in flights %}
       <tr>
-        <td class="text-left">{{ flight.flight_id }}</td>
-        <td class="text-left">{{ flight.airline_id }}</td>
-        <td class="text-left">{{ flight.aircraft_id }}</td>
-        <td class="text-left">{{ flight.from_destination }}</td>
-        <td class="text-left">{{ flight.to_destination }}</td>
-        <td class="text-left">{{ flight.departure_date }}</td>
-        <td class="text-left">{{ flight.departure_time }}</td>
-        <td class="text-left">{{ flight.arrival_date }}</td>
-        <td class="text-left">{{ flight.arrival_time }}</td>
-        <td class="text-left"><a href="{{ url_for('show_flight', flight_id=flight.flight_id) }}"><input type=submit value="View"></a></td>
+        <td class="text-left">{{ flight_id }}</td>
+        <td class="text-left">{{ airline }}</td>
+        <td class="text-left">{{ aircraft }}</td>
+        <td class="text-left">{{ from_dest }}</td>
+        <td class="text-left">{{ to_dest }}</td>
+        <td class="text-left">{{ dep_date }}</td>
+        <td class="text-left">{{ dep_time }}</td>
+        <td class="text-left">{{ arr_date }}</td>
+        <td class="text-left">{{ arr_time }}</td>
+        <td class="text-left">{%if session['type'] == 'user'%}<a href="{{ url_for('add_book', flight_id=flight_id) }}"><input type=submit value="Book"></a>{%endif%}</td>
       {%- endfor %}
       </tr>
         </tbody>
