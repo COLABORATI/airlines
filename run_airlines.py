@@ -2,14 +2,32 @@ from models import Flight, Airline, Airport, Aircraft, UserProfile, Account, Cre
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, session, escape
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import aliased
+import datetime
+from sqlalchemy import Date, cast
+from datetime import date
 
 @app.route('/')
 def show_all():
-    return render_template('show_all.html', flights=Flight.query.order_by(Flight.flight_id.desc()).all())
+    alias1 = aliased(Airport)
+    alias2 = aliased(Airport)
+    alias3 = aliased(Flight)
+    alias4 = aliased(Flight)
+    return render_template('show_all.html', flights= db.session.query(Flight.flight_id, Airline.airline_name,
+        Aircraft.aircraft_type, alias1.airport_code, alias2.airport_code, Flight.departure_date,
+        Flight.departure_time, Flight.arrival_date, Flight.arrival_time).join(alias3, Airline.flight).\
+        join(alias4, Aircraft.flight).join(alias1, Flight.from_dest).join(alias2, Flight.to_dest).distinct().all())
 
 @app.route('/show_flight', methods=['GET', 'POST'])
 def show_flight():
     return render_template('show_flight.html', flights=Flight.query.order_by(Flight.flight_id.desc()).all())
+
+@app.route('/show_bookings', methods=['GET', 'POST'])
+def show_bookings():
+    return render_template('show_booking.html', bookings=Booking.query.order_by(Booking.book_id.desc()).all())
+
+@app.route('/show_user_booking/<user_id>', methods=['GET', 'POST'])
+def show_user_booking(user_id):
+    return render_template('show_booking.html', bookings=Booking.query.order_by(Booking.user_id==user_id))
 
 @app.route('/show_airport', methods=['GET', 'POST'])
 def show_airport():
@@ -39,11 +57,38 @@ def current_user(user_id):
 def current_flights():
     alias1 = aliased(Airport)
     alias2 = aliased(Airport)
+    alias3 = aliased(Flight)
+    alias4 = aliased(Flight)
     return render_template('show_all.html', flights= db.session.query(Flight.flight_id, Airline.airline_name,
         Aircraft.aircraft_type, alias1.airport_code, alias2.airport_code, Flight.departure_date,
-        Flight.departure_time, Flight.arrival_date, Flight.arrival_time).join(Flight, Airline.flight).\
-        join(Flight, Aircraft.flight).join(alias1, alias1.airport_id==Flight.from_destination).join(alias2, alias2.airport_id==Flight.to_destination).\
-        group_by(Flight.flight_id))
+        Flight.departure_time, Flight.arrival_date, Flight.arrival_time).join(alias3, Airline.flight).\
+        join(alias4, Aircraft.flight).join(alias1, Flight.from_dest).join(alias2, Flight.to_dest).distinct().all())
+
+@app.route('/view_book/<book_id>', methods=['GET', 'POST'])
+def view_book(book_id):
+    alias1 = aliased(Booking)
+    alias2 = aliased(Booking)
+    airport1 = aliased(Airport)
+    airport2 = aliased(Airport)
+    flight1 = aliased(Flight)
+    flight2 = aliased(Flight)
+    return render_template('show_booking.html', book_=db.session.query(Booking.book_id, UserProfile.first_name, UserProfile.last_name,
+        airport1.airport_code, airport2.airport_code, Booking.seats, Booking.class_, Booking.price).join(alias1, Flight.booking).\
+                join(alias2, UserProfile.booking).join(airport1, Flight.from_dest).\
+                join(airport2, Flight.to_dest).filter(Booking.book_id==book_id).distinct())
+
+@app.route('/current_dates', methods=['GET', 'POST'])
+def current_dates():
+    alias1 = aliased(Airport)
+    alias2 = aliased(Airport)
+    alias3 = aliased(Flight)
+    alias4 = aliased(Flight)
+    return render_template('show_all.html', flights= db.session.query(Flight.flight_id, Airline.airline_name,
+        Aircraft.aircraft_type, alias1.airport_code, alias2.airport_code, Flight.departure_date,
+        Flight.departure_time, Flight.arrival_date, Flight.arrival_time).join(alias3, Airline.flight).\
+        join(alias4, Aircraft.flight).join(alias1, Flight.from_dest).join(alias2, Flight.to_dest).\
+        filter(Flight.departure_date==date.today()).distinct().all())
+
 
 #SearchBox
 #class SearchForm(Form):
@@ -87,7 +132,7 @@ def new():
             db.session.add(flight)
             db.session.commit()
             flash(u'Flight successfully created')
-            return redirect(url_for('show_all'))
+            return redirect(url_for('current_flights'))
     return render_template('new.html')
 
 @app.route('/new_flight', methods=['GET', 'POST'])
@@ -166,7 +211,7 @@ def register():
             flash('Last Name is required')
         elif not request.form['email']:
             flash('Email is required', 'error')
-        elif not requst.form['phone']:
+        elif not request.form['phone']:
             flash('Phone number is required', 'error')
         elif not request.form['street']:
             flash('Street is required', 'error')
@@ -176,16 +221,65 @@ def register():
             flash('City is required', 'error')
         elif not request.form['zip_code']:
             flash('ZIP code is required', 'error')
+        elif not request.form['account_id']:
+            flash('Account_id is required')
+        elif not request.form['login_name']:
+            flash('LogIn name required')
+        elif not request.form['password']:
+            flash('Password is required')
         else:
             user = UserProfile(request.form['user_id'], request.form['first_name'],
                     request.form['last_name'], request.form['email'], request.form['phone'],
                     request.form['street'],request.form['steet_number'], request.form['city'],
                     request.form['zip_code'])
+            account = Account(request.form['account_id'], request.form['user_id'], request.form['user_type'],request.form['login_name'], request.form['password'])
             db.session.add(user)
+            db.session.add(account)
             db.session.commit()
             flash(u'Successfully registered')
             return redirect(url_for('show_userprofile'))
     return render_template('register_user.html')
+
+@app.route('/book', methods=['GET', 'POST'])
+def new_booking():
+    """Create New Booking"""
+    if request.method == 'POST':
+        if not request.form['book_id']:
+            flash('bookID is required')
+        elif not requset.form['flight_id']:
+            flash('flight id is required')
+        elif not request.form['seats']:
+            flash('seats required')
+        elif not request.form['class_']:
+            flash('class is requeired')
+        elif not request.form['price']:
+            flash('Price is required')
+        else:
+            book = Booking(request.form['book_id'], request.form['flight_id'],
+                    request.form['user_id'], request.form['book_date'],
+                    request.form['seats'], request.form['class_'], request.form['price'])
+            db.session.add(book)
+            db.session.commit()
+            flash(u'successfuly created')
+            return redirect(url_for('show_bookings'))
+    return render_template('new_booking.html')
+
+"""=================== ADD ==================="""
+
+@app.route('/add_book/<flight_id>', methods=['GET', 'POST'])
+def add_book(flight_id):
+    """Create bookins for users"""
+    book_add = Booking.query.get(flight_id)
+    if book_add == None:
+        flash('Flight does not exist')
+        return redirect(url_for('current_flights'))
+    else:
+        book_add.user_id = session['id']
+        book_add.book_date = datetime.datetime.now()
+        db.session.commit()
+        flash('Flight Booked')
+        return redirect(url_for('show_user_booking', user_id=book_add.user_id))
+
 
 """=================== EDIT ==================="""
 
@@ -195,7 +289,7 @@ def edit(flight_id):
     flight_edit = Flight.query.get(flight_id)
     if flight_edit == None:
         flush('Flight does not exist')
-        return redirect(url_for('show_all'))
+        return redirect(url_for('current_flights'))
     elif request.method == 'POST':
         flight_edit.airline_id = request.form['airline_id']
         flight_edit.aircraft_id = request.form['aircraft_id']
@@ -287,8 +381,8 @@ def delete(flight_id):
     db.session.delete(delete_flight)
     flash('Flight Deleted')
     db.session.commit()
-    return redirect(url_for('show_all'))
-    
+    return redirect(url_for('show_flight'))
+
 
 @app.route('/delete_airport/<airport_id>', methods=['GET', 'POST'])
 def delete_airport(airport_id):
@@ -326,13 +420,24 @@ def delete_user(user_id):
     db.session.commit()
     return redirect(url_for('show_userprofile'))
 
+@app.route('/delete_book/<book_id>', methods=['GET', 'POST'])
+def delete_book(book_id):
+    """Method for deleting bookings"""
+    delete_book = Booking.query.get(book_id)
+    db.session.delete(delete_book)
+    flash('Book Deleted!')
+    db.session.commit()
+    return redirect(url_for('show_booking'))
+
+"""=================== UPDATE ==================="""
+
 @app.route('/update', methods=['POST'])
 def update_done():
     """Update All Flight"""
     Flight.query.all()
     flash('Updated!')
     db.session.commit()
-    return redirect(url_for('show_all'))
+    return redirect(url_for('current_flights'))
 
 """=================== LOGIN ==================="""
 
@@ -351,7 +456,7 @@ def login():
             session['type'] = user.user_type
             session['logged_in'] = True
             flash('You were log in!')
-            return redirect(url_for('show_all'))
+            return redirect(url_for('current_flights'))
     return render_template('login.html', error=error)
 
 @app.route('/logout')
@@ -361,7 +466,7 @@ def logout():
     session.pop('id', None)
     session.pop('type', None)
     flash('You were logged out')
-    return redirect(url_for('show_all'))
+    return redirect(url_for('current_flights'))
 
 
 if __name__ == '__main__':
