@@ -8,5 +8,5 @@ Airline reservation system contain airline schedules, fare tarrifs, passenger re
 
 ### ERD
 
-![ERD] (http://url/https://www.dropbox.com/s/2dl3tiyz12w5dvd/ERD_Airlines.jpg?dl=0 "ERD")
+![ERD] (http://url/www.dropbox.com/s/2dl3tiyz12w5dvd/ERD_Airlines.jpg?dl=1 "ERD")
 
